@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 include('../../components/koneksi.php');
 
@@ -18,7 +18,7 @@ $sinopsis = $_POST['sinopsis'];
 
 // update gambar
 $cover = $_FILES['cover']['name'];
-$tmpName = $_FILES['cover']['tmp_name'];
+$fileTmp = $_FILES['cover']['tmp_name'];
 $folder = 'image/';
 
 // ekstensi gambar
@@ -31,7 +31,7 @@ $ekstensiGambar = end($ekstensiGambar);
 $cover = date('l, d-m-Y  H:i:s');
 
 // generate nama baru
-$newName = strtolower(md5($cover).'.'.$ekstensiGambar);
+$namaBaru = strtolower(md5($cover) . '.' . $ekstensiGambar);
 
 $sql = "SELECT cover FROM buku WHERE kode='$kode'";
 $query = mysqli_query($koneksi, $sql);
@@ -41,85 +41,84 @@ $filePath = $folder . $oldFile;
 
 // Cek apakah file gambar baru diupload
 if ($_FILES['cover']['name']) {
-   // Jika gambar baru diupload, hapus gambar lama
-   if (file_exists($filePath)) {
-       unlink($filePath);  // Hapus gambar lama
-   }
+    // Jika gambar baru diupload, hapus gambar lama
+    if (file_exists($filePath)) {
+        unlink($filePath);  // Hapus gambar lama
+    }
 
-   // Pindahkan gambar baru ke folder
-   $upload = move_uploaded_file($tmpName, $folder.$newName);
+    // Pindahkan gambar baru ke folder
+    $upload = move_uploaded_file($fileTmp, $folder . $namaBaru);
 
-   // Update nama gambar baru di database
-   if ($upload) {
-       $sql = "UPDATE book SET cover='$newName' WHERE code='$code'";
-       mysqli_query($connect, $sql);
-   }
+    // Update nama gambar baru di database
+    if ($upload) {
+        $sql = "UPDATE buku SET cover='$namaBaru' WHERE kode='$kode'";
+        mysqli_query($koneksi, $sql);
+    }
 }
 
 
-if($kode == ''){
+if ($kode == '') {
     $_SESSION['msg']['kode'] = "Data kode tidak boleh kosong";
 }
 
-if($judul == ''){
+if ($judul == '') {
     $_SESSION['msg']['judul'] = "Data judul tidak boleh kosong";
 }
 
-if($kategori == ''){
+if ($kategori == '') {
     $_SESSION['msg']['kategori'] = "Data kategori tidak boleh kosong";
 }
 
-if($isbn == ''){
+if ($isbn == '') {
     $_SESSION['msg']['isbn'] = "Data ISBN tidak boleh kosong";
 }
 
-if($penulis == ''){
+if ($penulis == '') {
     $_SESSION['msg']['penulis'] = "Data penulis tidak boleh kosong";
 }
 
-if($penulis == ''){
+if ($penulis == '') {
     $_SESSION['msg']['penerbit'] = "Data penerbit tidak boleh kosong";
 }
 
-if($tahun == ''){
+if ($tahun == '') {
     $_SESSION['msg']['tahun'] = "Data tahun terbit tidak boleh kosong";
 }
 
 // validasi; jika ada gambar baru maka berhasil
-if ($newName) {
-    header('location: ../../dashboard/?page=buku-data');
- } else if ($cover == '') {
+if ($namaBaru) {
+    header('location: ../../?page=buku-data');
+} else if ($cover == '') {
     $_SESSION['msg']['cover'] = "Pilih Gambar!";
- } else if (!$upload) {
+} else if (!$upload) {
     $_SESSION['msg']['cover'] = "Gagal meng-upload file.";
-    header('location: ../../dashboard/?page=buku-input-update&kode='.$kode);
-    exit();
- }
+    header('location: ../../?page=buku-input-update&kode=' . $kode);
+}
 
-if($bahasa == ''){
+if ($bahasa == '') {
     $_SESSION['msg']['bahasa'] = "Data bahasa tidak boleh kosong";
 }
 
-if($sinopsis == ''){
+if ($sinopsis == '') {
     $_SESSION['msg']['sinopsis'] = "Data sinopsis tidak boleh kosong";
 }
 
 
-if(isset($_SESSION['msg'])){
-    header('location:../../?page=buku-input-update&kode='.$kode);
+if (isset($_SESSION['msg'])) {
+    header('location:../../?page=buku-input-update&kode=' . $kode);
     exit();
 }
 
 
-$query = "SELECT * FROM buku WHERE isbn!='$isbn' AND kode != '$kode'";
+$query = "SELECT * FROM buku WHERE judul='$judul' AND isbn!='$isbn'";
 $q = mysqli_query($koneksi, $query);
-if(mysqli_num_rows($q)!=0){
+if (mysqli_num_rows($q) != 0) {
     $_SESSION['msg']['error'] = "Data buku sudah ada, periksa isbn yang sama";
-    header('location:../../?page=buku-input-update&kode='.$kode);
+    header('location:../../?page=buku-input-update&kode=' . $kode);
     exit();
 }
 
-$query = "UPDATE buku SET judul='$judul', kategori_kode='$kategori', isbn='$isbn', penulis='$penulis', penerbit='$penerbit', tahun='$tahun', cover='$cover', bahasa='$bahasa', penerbit='$penerbit' WHERE kode='$kode'";
+$query = "UPDATE buku SET judul='$judul', kategori_kode='$kategori', isbn='$isbn', penulis='$penulis', penerbit_kode='$penerbit', tahun='$tahun', bahasa='$bahasa', sinopsis='$sinopsis' WHERE kode='$kode'";
 mysqli_query($koneksi, $query);
 $_SESSION['msg']['success'] = "Data buku berhasil diupdate";
-header('location:../../dashboard/?page=buku-data');
+header('location:../../?page=buku-data');

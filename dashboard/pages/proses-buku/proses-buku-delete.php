@@ -8,12 +8,12 @@ include('../../components/koneksi.php');
 $sql = "SELECT cover FROM buku WHERE kode='$kode'";
 $query = mysqli_query($koneksi, $sql);
 $data = mysqli_fetch_array($query);
-$filePath = '../image/' . $data['cover']; // Path file gambar
+$filePath = 'image/' . $data['cover']; // Path file gambar
 unlink($filePath); // Menghapus file gambar dari folder
 
 $sql = "DELETE FROM buku WHERE kode='$kode'";
 $query = mysqli_query($koneksi, $sql);
 
 session_start();
-$_SESSION['msg']['delete'] = "Data buku <b>'". $kode ."</b>' berhasil dihapus !";
+$_SESSION['msg']['success'] = "Data buku <b>'" . $kode . "</b>' berhasil dihapus !";
 header('location: ../../?page=buku-data');
