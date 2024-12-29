@@ -1,6 +1,6 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo">
-        <a href="index.html" class="app-brand-link">
+        <a href="" class="app-brand-link">
             <span class="app-brand-logo demo">
                 <svg width="25" viewBox="0 0 25 42" version="1.1" xmlns="http://www.w3.org/2000/svg"
                     xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -57,121 +57,121 @@
 
     <ul class="menu-inner py-1">
         <!-- Dashboard -->
-        <li class="menu-item <?= ($_REQUEST['page']=='dashboard')?'active':null ?>">
+        <li class="menu-item <?= ($_REQUEST['page'] == 'dashboard') ? 'active' : null ?>">
             <a href="?page=dashboard" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                <div data-i18n="dashboard">Dashboard</div>
+                <div>Dashboard</div>
             </a>
         </li>
 
         <!-- Layouts -->
         <li class="menu-item 
-              <?php 
-              if (
-                $_REQUEST['page']=='kategori-data' ||
-                $_REQUEST['page']=='kategori-input'
-              ) {
-                echo 'active open';
-              }
-              ?>
+              <?php
+                if (
+                    $_REQUEST['page'] == 'kategori-data' ||
+                    $_REQUEST['page'] == 'kategori-input'
+                ) {
+                    echo 'active open';
+                }
+                ?>
             ">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bxs-book-content"></i>
-                <div data-i18n="Account Settings">Kategori</div>
+                <div>Kategori</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item <?= ($_REQUEST['page']=='kategori-data')?'active':null ?>">
+                <li class="menu-item <?= ($_REQUEST['page'] == 'kategori-data') ? 'active' : null ?>">
                     <a href="?page=kategori-data" class="menu-link">
-                        <div data-i18n="Account">Data</div>
+                        <div>Data</div>
                     </a>
                 </li>
-                <li class="menu-item <?= ($_REQUEST['page']=='kategori-input')?'active':null ?>">
+                <li class="menu-item <?= ($_REQUEST['page'] == 'kategori-input') ? 'active' : null ?>">
                     <a href="?page=kategori-input" class="menu-link">
-                        <div data-i18n="Notifications">Input</div>
+                        <div>Input</div>
                     </a>
                 </li>
             </ul>
         </li>
 
         <li class="menu-item
-            <?php 
-              if (
-                $_REQUEST['page']=='penerbit-data' ||
-                $_REQUEST['page']=='penerbit-input'
-              ) {
+            <?php
+            if (
+                $_REQUEST['page'] == 'penerbit-data' ||
+                $_REQUEST['page'] == 'penerbit-input'
+            ) {
                 echo 'active open';
-              }
-              ?>
+            }
+            ?>
             ">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-purchase-tag-alt"></i>
-                <div data-i18n="Account Settings">Penerbit</div>
+                <div>Penerbit</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item <?= ($_REQUEST['page']=='penerbit-data')?'active':null ?>">
+                <li class="menu-item <?= ($_REQUEST['page'] == 'penerbit-data') ? 'active' : null ?>">
                     <a href="?page=penerbit-data" class="menu-link">
-                        <div data-i18n="Account">Data</div>
+                        <div>Data</div>
                     </a>
                 </li>
-                <li class="menu-item <?= ($_REQUEST['page']=='penerbit-input')?'active':null ?>">
+                <li class="menu-item <?= ($_REQUEST['page'] == 'penerbit-input') ? 'active' : null ?>">
                     <a href="?page=penerbit-input" class="menu-link">
-                        <div data-i18n="Notifications">Input</div>
+                        <div>Input</div>
                     </a>
                 </li>
             </ul>
         </li>
 
         <li class="menu-item 
-            <?php 
-              if (
-                $_REQUEST['page']=='buku-data' ||
-                $_REQUEST['page']=='buku-input'
-              ) {
+            <?php
+            if (
+                $_REQUEST['page'] == 'buku-data' ||
+                $_REQUEST['page'] == 'buku-input'
+            ) {
                 echo 'active open';
-              }
-              ?>
+            }
+            ?>
             ">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bxs-book"></i>
-                <div data-i18n="Account Settings">Buku</div>
+                <div>Buku</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item <?= ($_REQUEST['page']=='buku-data')?'active':null ?>">
+                <li class="menu-item <?= ($_REQUEST['page'] == 'buku-data') ? 'active' : null ?>">
                     <a href="?page=buku-data" class="menu-link">
-                        <div data-i18n="Account">Data</div>
+                        <div>Data</div>
                     </a>
                 </li>
-                <li class="menu-item <?= ($_REQUEST['page']=='buku-input')?'active':null ?>">
+                <li class="menu-item <?= ($_REQUEST['page'] == 'buku-input') ? 'active' : null ?>">
                     <a href="?page=buku-input" class="menu-link">
-                        <div data-i18n="Notifications">Input</div>
+                        <div>Input</div>
                     </a>
                 </li>
             </ul>
         </li>
 
         <li class="menu-item 
-            <?php 
-              if (
-                $_REQUEST['page']=='anggota-data' ||
-                $_REQUEST['page']=='anggota-input'
-              ) {
+            <?php
+            if (
+                $_REQUEST['page'] == 'anggota-data' ||
+                $_REQUEST['page'] == 'anggota-input'
+            ) {
                 echo 'active open';
-              }
-              ?>
+            }
+            ?>
             ">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bxs-book"></i>
-                <div data-i18n="Account Settings">Anggota</div>
+                <i class="menu-icon tf-icons bx bx-id-card"></i>
+                <div>Anggota</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item <?= ($_REQUEST['page']=='anggota-data')?'active':null ?>">
+                <li class="menu-item <?= ($_REQUEST['page'] == 'anggota-data') ? 'active' : null ?>">
                     <a href="?page=anggota-data" class="menu-link">
-                        <div data-i18n="Account">Data</div>
+                        <div>Data</div>
                     </a>
                 </li>
-                <li class="menu-item <?= ($_REQUEST['page']=='anggota-input')?'active':null ?>">
+                <li class="menu-item <?= ($_REQUEST['page'] == 'anggota-input') ? 'active' : null ?>">
                     <a href="?page=anggota-input" class="menu-link">
-                        <div data-i18n="Notifications">Input</div>
+                        <div>Input</div>
                     </a>
                 </li>
             </ul>
@@ -180,60 +180,38 @@
 
 
         <li class="menu-item
-            <?php 
-              if (
-                $_REQUEST['page']=='transaksi-pinjam-data' ||
-                $_REQUEST['page']=='transaksi-pinjam-input'
-              ) {
+            <?php
+            if (
+                $_REQUEST['page'] == 'transaksi-data' ||
+                $_REQUEST['page'] == 'transaksi-detail' ||
+                $_REQUEST['page'] == 'transaksi-pinjam' ||
+                $_REQUEST['page'] == 'transaksi-kembali'
+            ) {
                 echo 'active open';
-              }
-              ?>
+            }
+            ?>
             ">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-edit"></i>
-                <div data-i18n="Account Settings">Transaksi pinjam</div>
+                <div>Transaksi</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item <?= ($_REQUEST['page']=='transaksi-pinjam-data')?'active':null ?>">
-                    <a href="?page=transaksi-pinjam-data" class="menu-link">
-                        <div data-i18n="Account">Data</div>
+                <li class="menu-item <?= ($_REQUEST['page'] == 'transaksi-data' || $_REQUEST['page'] == 'transaksi-detail') ? 'active' : null ?>">
+                    <a href="?page=transaksi-data" class="menu-link">
+                        <div>Data Peminjam</div>
                     </a>
                 </li>
-                <li class="menu-item <?= ($_REQUEST['page']=='transaksi-pinjam-input')?'active':null ?>">
-                    <a href="?page=transaksi-pinjam-input" class="menu-link">
-                        <div data-i18n="Notifications">Input</div>
+                <li class="menu-item <?= ($_REQUEST['page'] == 'transaksi-pinjam') ? 'active' : null ?>">
+                    <a href="?page=transaksi-pinjam" class="menu-link">
+                        <div>Peminjaman</div>
+                    </a>
+                </li>
+                <li class="menu-item <?= ($_REQUEST['page'] == 'transaksi-kembali') ? 'active' : null ?>">
+                    <a href="?page=transaksi-kembali" class="menu-link">
+                        <div>Pengembalian</div>
                     </a>
                 </li>
             </ul>
         </li>
-
-        <li class="menu-item
-            <?php 
-              if (
-                $_REQUEST['page']=='transaksi-kembali-data' ||
-                $_REQUEST['page']=='transaksi-kembali-input'
-              ) {
-                echo 'active open';
-              }
-              ?>
-            ">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-edit"></i>
-                <div data-i18n="Account Settings">Transaksi kembali</div>
-            </a>
-            <ul class="menu-sub">
-                <li class="menu-item <?= ($_REQUEST['page']=='transaksi-kembali-data')?'active':null ?>">
-                    <a href="?page=transaksi-kembali-data" class="menu-link">
-                        <div data-i18n="Account">Data</div>
-                    </a>
-                </li>
-                <li class="menu-item <?= ($_REQUEST['page']=='transaksi-kembali-input')?'active':null ?>">
-                    <a href="?page=transaksi-kembali-input" class="menu-link">
-                        <div data-i18n="Notifications">Input</div>
-                    </a>
-                </li>
-            </ul>
-        </li>
-
     </ul>
 </aside>
