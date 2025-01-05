@@ -110,7 +110,7 @@ if (isset($_SESSION['msg'])) {
 }
 
 
-$query = "SELECT * FROM buku WHERE judul='$judul' AND isbn!='$isbn'";
+$query = "SELECT * FROM buku WHERE judul='$judul' AND isbn!='$isbn' AND kode!='$kode'";
 $q = mysqli_query($koneksi, $query);
 if (mysqli_num_rows($q) != 0) {
     $_SESSION['msg']['error'] = "Data buku sudah ada, periksa isbn yang sama";

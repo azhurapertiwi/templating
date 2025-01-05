@@ -42,7 +42,8 @@ $selectpenerbit = mysqli_query($koneksi, $penerbit);
                                         ';
                                     }
                                 ?>
-                                <form action="pages/proses-buku/proses-buku-update.php" method="POST">
+                                <form action="pages/proses-buku/proses-buku-update.php" method="POST"
+                                    enctype="multipart/form-data">
                                     <div class="row">
                                         <div class="mb-3 col-4">
                                             <label for="zipCode" class="form-label">Kode</label>
