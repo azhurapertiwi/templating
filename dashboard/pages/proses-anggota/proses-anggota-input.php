@@ -75,8 +75,8 @@ if (mysqli_num_rows($query) != 0) {
     exit();
 }
 
-$sql = "INSERT INTO anggota VALUES ('$nik', '$nama', '$no_hp', '$email', '$alamat', '$namaBaru')";
-$query = mysqli_query($koneksi, $sql);
+$sql = "INSERT INTO anggota VALUES ('$nik', '$nama', '$email', '$no_hp', '$alamat', '$namaBaru')";
+mysqli_query($koneksi, $sql);
 $_SESSION['msg']['anggota'] = "Data anggota baru berhasil ditambahkan!";
 header('location: ../../?page=anggota-input');
-unset($_SESSION['value']);
+// unset($_SESSION['value']);

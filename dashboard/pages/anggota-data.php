@@ -34,24 +34,25 @@
                             $no = 1;
                             while ($data = mysqli_fetch_array($q)) {
                             ?>
-                                <tr>
-                                    <td scope="row"><?= $no++ ?></td>
-                                    <td><?= $data['nik'] ?></td>
-                                    <td><?= $data['nama'] ?></td>
-                                    <td><?= $data['email'] ?></td>
-                                    <td><?= $data['no_hp'] ?></td>
-                                    <td><?= $data['alamat'] ?></td>
-                                    <td>
-                                        <img class="w-25" src="pages/proses-anggota/image/<?= $data['foto'] ?>" alt="">
-                                    </td>
-                                    <td>
-                                        <a href="pages/proses-anggota/proses-anggota-delete.php?nik=<?= $data['nik'] ?>"
-                                            onclick="return confirm('Anda yakin menghapus data ini?')"><i
-                                                class="bx bxs-trash-alt text-danger"></i></a> |
-                                        <a href="?page=anggota-input-update&nik=<?= $data['nik'] ?>"><i
-                                                class="bx bxs-pencil text-primary"></i></a>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td scope="row"><?= $no++ ?></td>
+                                <td><?= $data['nik'] ?></td>
+                                <td><?= $data['nama'] ?></td>
+                                <td><?= $data['email'] ?></td>
+                                <td><?= $data['no_hp'] ?></td>
+                                <td><?= $data['alamat'] ?></td>
+                                <td>
+                                    <img style="width: 100px;" src="pages/proses-anggota/image/<?= $data['foto'] ?>"
+                                        alt="">
+                                </td>
+                                <td>
+                                    <a href="pages/proses-anggota/proses-anggota-delete.php?nik=<?= $data['nik'] ?>"
+                                        onclick="return confirm('Anda yakin menghapus data ini?')"><i
+                                            class="bx bxs-trash-alt text-danger"></i></a> |
+                                    <a href="?page=anggota-input-update&nik=<?= $data['nik'] ?>"><i
+                                            class="bx bxs-pencil text-primary"></i></a>
+                                </td>
+                            </tr>
                             <?php
                             }
                             ?>
