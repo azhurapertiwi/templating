@@ -1,6 +1,6 @@
 <?php 
 if (!isset($_POST['btn-submit'])) {
-    header('location:../../index.php');
+    header('location:../../?page=dashboard');
 }
 
 $kode = $_POST['kode'];
@@ -12,7 +12,7 @@ if($nama == ''){
     $_SESSION['msg']['err_nama'] = "Data nama tidak boleh kosong";
 }
 
-if(isset($_SESSION['msg']['err_nama'])){
+if(isset($_SESSION['msg'])){
     header('location:../../?page=kategori-input-update&kode='.$kode);
     exit();
 }
