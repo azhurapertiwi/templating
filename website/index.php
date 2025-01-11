@@ -1,274 +1,212 @@
+<?php
+session_start();
+include('../dashboard/components/koneksi.php');
+$sql = "SELECT * FROM buku
+         LEFT JOIN kategori ON buku.kategori_kode = kategori.kategori_kode
+         LEFT JOIN penerbit ON buku.penerbit_kode = penerbit.penerbit_kode
+         ORDER BY buku.judul ASC";
+$query = mysqli_query($koneksi, $sql);
+
+if (isset($_POST['cari'])) {
+   $judul = $_POST ['judul-buku'];
+
+   $_SESSION['value-judul'] = $judul;
+
+   $sql = "SELECT * FROM buku
+         LEFT JOIN kategori ON buku.kategori_kode = kategori.kategori_kode
+         LEFT JOIN penerbit ON buku.penerbit_kode = penerbit.penerbit_kode
+         WHERE judul LIKE '%$judul%' ORDER BY buku.judul ASC";
+   $query = mysqli_query($koneksi, $sql);
+   if (mysqli_num_rows($query) == 0) {
+      $_SESSION['err-cari'] = '<h1 class="text-center bg-warning py-5">Buku tidak ditemukan</h1>';
+   }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-   <meta charset="utf-8" />
-   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-   <meta name="description" content="" />
-   <meta name="author" content="" />
-   <title>Landing Page - Start Bootstrap Theme</title>
-   <!-- Favicon-->
-   <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-   <!-- Bootstrap icons-->
-   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"
-      type="text/css" />
-   <!-- Google fonts-->
-   <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet"
-      type="text/css" />
-   <!-- Core theme CSS (includes Bootstrap)-->
-   <link href="css/styles.css" rel="stylesheet" />
+    <meta charset="utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+    <title>Perpustakaan</title>
+
+    <meta name="description" content="" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet" />
+
+    <!-- Icons. Uncomment required icon fonts -->
+    <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="../assets/vendor/css/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="../assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="../assets/css/demo.css" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+
+    <link rel="stylesheet" href="../assets/vendor/libs/apex-charts/apex-charts.css" />
+
+    <!-- Page CSS -->
+
+    <!-- Helpers -->
+    <script src="../assets/vendor/js/helpers.js"></script>
+
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="../assets/js/config.js"></script>
 </head>
 
 <body>
-   <!-- Navigation-->
-   <nav class="navbar navbar-light bg-light static-top">
-      <div class="container">
-         <a class="navbar-brand" href="#!">Start Bootstrap</a>
-         <a class="btn btn-primary" href="../login/login.php">Sign In</a>
-      </div>
-   </nav>
-   <!-- Masthead-->
-   <header class="masthead">
-      <div class="container position-relative">
-         <div class="row justify-content-center">
-            <div class="col-xl-6">
-               <div class="text-center text-white">
-                  <!-- Page heading-->
-                  <h1 class="mb-5">Generate more leads with a professional landing page!</h1>
-                  <!-- Signup form-->
-                  <!-- * * * * * * * * * * * * * * *-->
-                  <!-- * * SB Forms Contact Form * *-->
-                  <!-- * * * * * * * * * * * * * * *-->
-                  <!-- This form is pre-integrated with SB Forms.-->
-                  <!-- To make this form functional, sign up at-->
-                  <!-- https://startbootstrap.com/solution/contact-forms-->
-                  <!-- to get an API token!-->
-                  <form class="form-subscribe" id="contactForm" data-sb-form-api-token="API_TOKEN">
-                     <!-- Email address input-->
-                     <div class="row">
-                        <div class="col">
-                           <input class="form-control form-control-lg" id="emailAddress" type="email"
-                              placeholder="Email Address" data-sb-validations="required,email" />
-                           <div class="invalid-feedback text-white" data-sb-feedback="emailAddress:required">
-                              Email Address is required.</div>
-                           <div class="invalid-feedback text-white" data-sb-feedback="emailAddress:email">Email
-                              Address Email is not valid.</div>
+    <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+        id="layout-navbar">
+        <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+            <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                <i class="bx bx-menu bx-sm"></i>
+            </a>
+        </div>
+
+        <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+            <!-- Search -->
+            <form action="" method="POST">
+                <div class="navbar-nav align-items-center">
+                    <div class="nav-item d-flex align-items-center border">
+                        <i class="bx bx-search fs-4 lh-0"></i>
+                        <input type="text" class="form-control border-0 shadow-none" placeholder="Cari Buku"
+                            aria-label="Search..." name="judul-buku"
+                            value="<?= (isset($_SESSION['judul'])) ? $_SESSION['judul'] : null;?>" />
+                        <button class="btn btn-outline-primary" type="submit" name="cari">Search</button>
+                    </div>
+                </div>
+            </form>
+            <!-- /Search -->
+
+            <ul class="navbar-nav flex-row align-items-center ms-auto">
+                <!-- Place this tag where you want the button to render. -->
+                <!-- User -->
+                <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                    <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                        <div class="avatar avatar-online">
+                            <img src="../assets/img/avatars/6.png" alt class="w-px-40 h-auto rounded-circle" />
                         </div>
-                        <div class="col-auto"><button class="btn btn-primary btn-lg disabled" id="submitButton"
-                              type="submit">Submit</button></div>
-                     </div>
-                     <!-- Submit success message-->
-                     <!---->
-                     <!-- This is what your users will see when the form-->
-                     <!-- has successfully submitted-->
-                     <div class="d-none" id="submitSuccessMessage">
-                        <div class="text-center mb-3">
-                           <div class="fw-bolder">Form submission successful!</div>
-                           <p>To activate this form, sign up at</p>
-                           <a class="text-white"
-                              href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <a class="dropdown-item" href="../login/login.php">
+                                <i class="bx bx-power-off"></i>
+                                <span class="align-middle">Log In</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!--/ User -->
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Card Groups -->
+    <div class="content-wrapper min-vh-100">
+        <div class="container-xxl flex-grow-1 container-p-y">
+
+            <div class="row mb-10">
+                <div class="col-md mb-10">
+                    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <li data-bs-target="#carouselExample" data-bs-slide-to="0" class="active"></li>
+                            <li data-bs-target="#carouselExample" data-bs-slide-to="1"></li>
+                            <li data-bs-target="#carouselExample" data-bs-slide-to="2"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img class="d-block w-100" src="../assets/img/elements/background1.jpg"
+                                    alt="First slide" style="max-height: 400px;" />
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h3>Perpustakaan</h3>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block w-100" src="../assets/img/elements/background2.jpg"
+                                    alt="Second slide" style="max-height: 400px;" />
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h3>Perpustakaan</h3>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block w-100" src="../assets/img/elements/background3.jpg"
+                                    alt="Third slide" style="max-height: 400px;" />
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h3>Perpustakaan</h3>
+                                </div>
+                            </div>
                         </div>
-                     </div>
-                     <!-- Submit error message-->
-                     <!---->
-                     <!-- This is what your users will see when there is-->
-                     <!-- an error submitting the form-->
-                     <div class="d-none" id="submitErrorMessage">
-                        <div class="text-center text-danger mb-3">Error sending message!</div>
-                     </div>
-                  </form>
-               </div>
+                        <a class="carousel-control-prev" href="#carouselExample" role="button" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExample" role="button" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </a>
+                    </div>
+                </div>
             </div>
-         </div>
-      </div>
-   </header>
-   <!-- Icons Grid-->
-   <section class="features-icons bg-light text-center">
-      <div class="container">
-         <div class="row">
-            <div class="col-lg-4">
-               <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-                  <div class="features-icons-icon d-flex"><i class="bi-window m-auto text-primary"></i></div>
-                  <h3>Fully Responsive</h3>
-                  <p class="lead mb-0">This theme will look great on any device, no matter the size!</p>
-               </div>
+        </div>
+
+        <div class="container-xxl flex-grow-1 container-p-y">
+            <!-- Content Carousel -->
+            <!-- Content Card -->
+            <div class="row mb-12 g-6">
+                <?php while ($data = mysqli_fetch_array($query)) { ?>
+                <div class="col-md-6 col-xl-4">
+                    <div class="card mb-3">
+                        <img class="card-img-top"
+                            src="../dashboard/pages/proses-buku/image/<?php echo $data['cover']; ?>"
+                            alt="Card image cap" />
+                        <div class="card-body">
+                            <h5 class="card-title"><?php echo $data['judul']; ?></h5>
+                            <p class="card-text">
+                                <?php echo $data['sinopsis']; ?>
+                            </p>
+                            <a class="btn btn-primary" href="detail.php?kode=<?= $data['kode'] ?>">lihat detail</a>
+                        </div>
+                    </div>
+                </div>
+                <?php } ?>
             </div>
-            <div class="col-lg-4">
-               <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-                  <div class="features-icons-icon d-flex"><i class="bi-layers m-auto text-primary"></i></div>
-                  <h3>Bootstrap 5 Ready</h3>
-                  <p class="lead mb-0">Featuring the latest build of the new Bootstrap 5 framework!</p>
-               </div>
-            </div>
-            <div class="col-lg-4">
-               <div class="features-icons-item mx-auto mb-0 mb-lg-3">
-                  <div class="features-icons-icon d-flex"><i class="bi-terminal m-auto text-primary"></i></div>
-                  <h3>Easy to Use</h3>
-                  <p class="lead mb-0">Ready to use with your own content, or customize the source files!</p>
-               </div>
-            </div>
-         </div>
-      </div>
-   </section>
-   <!-- Image Showcases-->
-   <section class="showcase">
-      <div class="container-fluid p-0">
-         <div class="row g-0">
-            <div class="col-lg-6 order-lg-2 text-white showcase-img"
-               style="background-image: url('assets/img/bg-showcase-1.jpg')"></div>
-            <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-               <h2>Fully Responsive Design</h2>
-               <p class="lead mb-0">When you use a theme created by Start Bootstrap, you know that the theme will
-                  look great on any device, whether it's a phone, tablet, or desktop the page will behave
-                  responsively!</p>
-            </div>
-         </div>
-         <div class="row g-0">
-            <div class="col-lg-6 text-white showcase-img" style="background-image: url('assets/img/bg-showcase-2.jpg')">
-            </div>
-            <div class="col-lg-6 my-auto showcase-text">
-               <h2>Updated For Bootstrap 5</h2>
-               <p class="lead mb-0">Newly improved, and full of great utility classes, Bootstrap 5 is leading the
-                  way in mobile responsive web development! All of the themes on Start Bootstrap are now using
-                  Bootstrap 5!</p>
-            </div>
-         </div>
-         <div class="row g-0">
-            <div class="col-lg-6 order-lg-2 text-white showcase-img"
-               style="background-image: url('assets/img/bg-showcase-3.jpg')"></div>
-            <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-               <h2>Easy to Use & Customize</h2>
-               <p class="lead mb-0">Landing Page is just HTML and CSS with a splash of SCSS for users who demand
-                  some deeper customization options. Out of the box, just add your content and images, and your
-                  new landing page will be ready to go!</p>
-            </div>
-         </div>
-      </div>
-   </section>
-   <!-- Testimonials-->
-   <section class="testimonials text-center bg-light">
-      <div class="container">
-         <h2 class="mb-5">What people are saying...</h2>
-         <div class="row">
-            <div class="col-lg-4">
-               <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                  <img class="img-fluid rounded-circle mb-3" src="assets/img/testimonials-1.jpg" alt="..." />
-                  <h5>Margaret E.</h5>
-                  <p class="font-weight-light mb-0">"This is fantastic! Thanks so much guys!"</p>
-               </div>
-            </div>
-            <div class="col-lg-4">
-               <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                  <img class="img-fluid rounded-circle mb-3" src="assets/img/testimonials-2.jpg" alt="..." />
-                  <h5>Fred S.</h5>
-                  <p class="font-weight-light mb-0">"Bootstrap is amazing. I've been using it to create lots of
-                     super nice landing pages."</p>
-               </div>
-            </div>
-            <div class="col-lg-4">
-               <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                  <img class="img-fluid rounded-circle mb-3" src="assets/img/testimonials-3.jpg" alt="..." />
-                  <h5>Sarah W.</h5>
-                  <p class="font-weight-light mb-0">"Thanks so much for making these free resources available to
-                     us!"</p>
-               </div>
-            </div>
-         </div>
-      </div>
-   </section>
-   <!-- Call to Action-->
-   <section class="call-to-action text-white text-center" id="signup">
-      <div class="container position-relative">
-         <div class="row justify-content-center">
-            <div class="col-xl-6">
-               <h2 class="mb-4">Ready to get started? Sign up now!</h2>
-               <!-- Signup form-->
-               <!-- * * * * * * * * * * * * * * *-->
-               <!-- * * SB Forms Contact Form * *-->
-               <!-- * * * * * * * * * * * * * * *-->
-               <!-- This form is pre-integrated with SB Forms.-->
-               <!-- To make this form functional, sign up at-->
-               <!-- https://startbootstrap.com/solution/contact-forms-->
-               <!-- to get an API token!-->
-               <form class="form-subscribe" id="contactFormFooter" data-sb-form-api-token="API_TOKEN">
-                  <!-- Email address input-->
-                  <div class="row">
-                     <div class="col">
-                        <input class="form-control form-control-lg" id="emailAddressBelow" type="email"
-                           placeholder="Email Address" data-sb-validations="required,email" />
-                        <div class="invalid-feedback text-white" data-sb-feedback="emailAddressBelow:required">
-                           Email Address is required.</div>
-                        <div class="invalid-feedback text-white" data-sb-feedback="emailAddressBelow:email">
-                           Email Address Email is not valid.</div>
-                     </div>
-                     <div class="col-auto"><button class="btn btn-primary btn-lg disabled" id="submitButton"
-                           type="submit">Submit</button></div>
-                  </div>
-                  <!-- Submit success message-->
-                  <!---->
-                  <!-- This is what your users will see when the form-->
-                  <!-- has successfully submitted-->
-                  <div class="d-none" id="submitSuccessMessage">
-                     <div class="text-center mb-3">
-                        <div class="fw-bolder">Form submission successful!</div>
-                        <p>To activate this form, sign up at</p>
-                        <a class="text-white"
-                           href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
-                     </div>
-                  </div>
-                  <!-- Submit error message-->
-                  <!---->
-                  <!-- This is what your users will see when there is-->
-                  <!-- an error submitting the form-->
-                  <div class="d-none" id="submitErrorMessage">
-                     <div class="text-center text-danger mb-3">Error sending message!</div>
-                  </div>
-               </form>
-            </div>
-         </div>
-      </div>
-   </section>
-   <!-- Footer-->
-   <footer class="footer bg-light">
-      <div class="container">
-         <div class="row">
-            <div class="col-lg-6 h-100 text-center text-lg-start my-auto">
-               <ul class="list-inline mb-2">
-                  <li class="list-inline-item"><a href="#!">About</a></li>
-                  <li class="list-inline-item">⋅</li>
-                  <li class="list-inline-item"><a href="#!">Contact</a></li>
-                  <li class="list-inline-item">⋅</li>
-                  <li class="list-inline-item"><a href="#!">Terms of Use</a></li>
-                  <li class="list-inline-item">⋅</li>
-                  <li class="list-inline-item"><a href="#!">Privacy Policy</a></li>
-               </ul>
-               <p class="text-muted small mb-4 mb-lg-0">&copy; Your Website 2023. All Rights Reserved.</p>
-            </div>
-            <div class="col-lg-6 h-100 text-center text-lg-end my-auto">
-               <ul class="list-inline mb-0">
-                  <li class="list-inline-item me-4">
-                     <a href="#!"><i class="bi-facebook fs-3"></i></a>
-                  </li>
-                  <li class="list-inline-item me-4">
-                     <a href="#!"><i class="bi-twitter fs-3"></i></a>
-                  </li>
-                  <li class="list-inline-item">
-                     <a href="#!"><i class="bi-instagram fs-3"></i></a>
-                  </li>
-               </ul>
-            </div>
-         </div>
-      </div>
-   </footer>
-   <!-- Bootstrap core JS-->
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-   <!-- Core theme JS-->
-   <script src="js/scripts.js"></script>
-   <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-   <!-- * *                               SB Forms JS                               * *-->
-   <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
-   <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-   <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+        </div>
+    </div>
+
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="../assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="../assets/vendor/libs/popper/popper.js"></script>
+    <script src="../assets/vendor/js/bootstrap.js"></script>
+    <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+    <script src="../assets/vendor/js/menu.js"></script>
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+    <script src="../assets/vendor/libs/apex-charts/apexcharts.js"></script>
+
+    <!-- Main JS -->
+    <script src="../assets/js/main.js"></script>
+
+    <!-- Page JS -->
+    <script src="../assets/js/dashboards-analytics.js"></script>
+
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
 </body>
 
 </html>
