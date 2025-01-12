@@ -85,10 +85,10 @@ if (isset($_SESSION['msg']['err_nik']) || isset($_SESSION['msg']['err_nama']) ||
     exit();
 }
 
-$query = "SELECT * FROM anggota WHERE email='$email' AND nik != '$nik'";
+$query = "SELECT * FROM anggota WHERE (email='$email' OR no_hp='$no_hp') AND nik != '$nik'";
 $q = mysqli_query($koneksi, $query);
 if (mysqli_num_rows($q) != 0) {
-    $_SESSION['msg']['error'] = "Data anggota sudah ada, periksa email yang sama";
+    $_SESSION['msg']['error'] = "Data anggota sudah ada, periksa email atau no hp yang sama";
     header('location:../../?page=anggota-input-update&nik=' . $nik);
     exit();
 }

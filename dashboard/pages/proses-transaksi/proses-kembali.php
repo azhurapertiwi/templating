@@ -29,6 +29,32 @@ if (isset($_SESSION['msg'])) {
     exit();
 }
 
+// Ambil tanggal pinjam dari database
+$sqlTglPinjam = "SELECT tgl_pinjam FROM transaksi WHERE nik_anggota='$nik_anggota' AND tgl_kembali IS NULL LIMIT 1";
+$queryTglPinjam = mysqli_query($koneksi, $sqlTglPinjam);
+if (!$queryTglPinjam) {
+    $_SESSION['msg']['failed'] = "Gagal mengambil data pinjaman: " . mysqli_error($koneksi);
+    header('location: ../../?page=transaksi-kembali');
+    exit();
+}
+$dataTglPinjam = mysqli_fetch_assoc($queryTglPinjam);
+
+if ($dataTglPinjam) {
+    $tgl_pinjam = $dataTglPinjam['tgl_pinjam'];
+
+    // Validasi: tgl_kembali tidak boleh lebih kecil dari tgl_pinjam
+    if (strtotime($tgl_kembali) < strtotime($tgl_pinjam)) {
+        $_SESSION['msg']['tgl_kembali'] = "Tanggal kembali tidak boleh lebih kecil dari tanggal pinjam!";
+        header('location: ../../?page=transaksi-kembali');
+        exit();
+    }
+} else {
+    $_SESSION['msg']['failed'] = "Tidak ada data peminjaman yang ditemukan untuk anggota ini!";
+    header('location: ../../?page=transaksi-kembali');
+    exit();
+}
+
+
 // Mulai transaksi
 mysqli_autocommit($koneksi, false); // Mulai transaksi untuk konsistensi data
 
@@ -85,4 +111,6 @@ try {
     header('location: ../../?page=transaksi-kembali');
     exit();
 }
+
+
  

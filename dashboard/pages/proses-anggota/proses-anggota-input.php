@@ -57,7 +57,7 @@ if ($alamat == '') {
     $_SESSION['msg']['alamat'] = "Data alamat tidak boleh kosong";
 }
 
-if ($foto == '') {
+if (!$upload) {
     $_SESSION['msg']['foto'] = "Data foto tidak boleh kosong";
 }
 
