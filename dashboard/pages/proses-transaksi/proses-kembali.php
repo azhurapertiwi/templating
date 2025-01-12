@@ -62,10 +62,7 @@ try {
     // 1. Cek apakah ada transaksi yang tgl_kembali nya NULL untuk satu member
     $sqlCheckReturn = "SELECT tgl_kembali FROM transaksi WHERE nik_anggota='$nik_anggota'";
     $queryCheckReturn = mysqli_query($koneksi, $sqlCheckReturn);
-    if (!$queryCheckReturn) {
-       throw new Exception("Gagal mengecek status pengembalian buku: " . mysqli_error($koneksi));
-    }
- 
+    
     $nullTglKembali = false; // Menandakan apakah masih ada transaksi dengan tgl_kembali NULL
     $validTglKembali = false; // Menandakan apakah semua transaksi sudah memiliki tgl_kembali yang valid
  
@@ -85,10 +82,7 @@ try {
        // Update tgl_kembali pada transaksi yang belum dikembalikan
        $sqlUpdateTransaksi = "UPDATE transaksi SET tgl_kembali='$tgl_kembali' WHERE nik_anggota='$nik_anggota' AND tgl_kembali IS NULL";
        $queryUpdateTransaksi = mysqli_query($koneksi, $sqlUpdateTransaksi);
-       if (!$queryUpdateTransaksi) {
-          throw new Exception("Gagal mengupdate tgl_kembali: " . mysqli_error($koneksi));
-       }
- 
+       
        // Commit transaksi
        mysqli_commit($koneksi);
  
