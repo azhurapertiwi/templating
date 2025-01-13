@@ -59,25 +59,24 @@ if (isset($_SESSION['msg'])) {
 // mulai transaksi
 mysqli_autocommit($koneksi, false);
 
-try {
-    $queryTransaksi = "INSERT INTO transaksi (id, nik_anggota, tgl_pinjam, tgl_kembali) VALUES (NULL, '$nik_anggota', '$tgl_pinjam', NULL)";
-    mysqli_query($koneksi, $queryTransaksi);
+$queryTransaksi = "INSERT INTO transaksi (id, nik_anggota, tgl_pinjam, tgl_kembali) VALUES (NULL, '$nik_anggota', '$tgl_pinjam', NULL)";
 
-    $id_transaksi = mysqli_insert_id($koneksi);
+mysqli_query($koneksi, $queryTransaksi);
 
-    foreach($buku as $buk) {
-        $buk = $buk['kode_buku'];
-        $queryDetail = "INSERT INTO detail_transaksi (id, id_transaksi, nik_anggota, kode_buku) VALUES (NULL, '$id_transaksi', '$nik_anggota', '$buk')";
-        mysqli_query($koneksi, $queryDetail);
-    }
+$id_transaksi = mysqli_insert_id($koneksi);
 
-    mysqli_commit($koneksi);
-    $_SESSION['msg']['sukses'] = "Transaksi peminjaman buku berhasil!";
-    header('location: ../../?page=transaksi-pinjam');
-    exit();
-} catch (Exception $e) {
-    mysqli_rollback($koneksi);
-    $_SESSION['msg']['failed'] = "Terjadi kesalahan: " . $e->getMessage();
-    header('location: ../../?page=transaksi-pinjam');
-    exit();
+foreach($buku as $buk) {
+    $buk = $buk['kode_buku'];
+    $queryDetail = "INSERT INTO detail_transaksi (id, id_transaksi, nik_anggota, kode_buku) VALUES (NULL, '$id_transaksi', '$nik_anggota', '$buk')";
+    mysqli_query($koneksi, $queryDetail);
 }
+
+mysqli_commit($koneksi);
+$_SESSION['msg']['sukses'] = "Transaksi peminjaman buku berhasil!";
+header('location: ../../?page=transaksi-pinjam');
+exit();
+
+mysqli_rollback($koneksi);
+$_SESSION['msg']['failed'] = "Terjadi kesalahan: " . $e->getMessage();
+header('location: ../../?page=transaksi-pinjam');
+exit();
